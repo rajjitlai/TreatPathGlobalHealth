@@ -6,6 +6,32 @@ import "./index.css"
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 import { Toaster } from "react-hot-toast";
+import { ThemeProvider } from "./context/ThemeContext";
+
+// Apply theme immediately to prevent flash
+const applyInitialTheme = () => {
+  try {
+    const stored = localStorage.getItem("treatpath_theme");
+    const root = document.documentElement;
+
+    // Remove existing theme classes
+    root.classList.remove("light", "dark");
+
+    if (stored === "dark" || stored === "light") {
+      root.classList.add(stored);
+    } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      root.classList.add("dark");
+    } else {
+      root.classList.add("light");
+    }
+  } catch (error) {
+    console.error("Error applying initial theme:", error);
+    document.documentElement.classList.add("light");
+  }
+};
+
+// Apply theme before React renders
+applyInitialTheme();
 
 // Conditionally inject Google AdSense only in production when publisher ID is provided
 if (import.meta.env.PROD) {
@@ -31,9 +57,11 @@ if (import.meta.env.PROD) {
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <Toaster />
-      <App />
-    </AuthProvider>
+    <ThemeProvider>
+      <AuthProvider>
+        <Toaster />
+        <App />
+      </AuthProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

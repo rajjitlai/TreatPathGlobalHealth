@@ -38,6 +38,7 @@ VITE_APP_ID=<your_appwrite_project_id>
 # Database and collections (used by AuthContext and other data ops)
 VITE_APP_DB=<your_database_id>
 VITE_APP_USERS_COLLECTION=<your_users_collection_id>
+VITE_APP_PROD_COLLECTION=<your_products_collection_id>
 
 # Optional: Google AdSense (conditional loading)
 # Set your publisher ID (format: ca-pub-XXXXXXXXXXXXXXX) to enable AdSense in production
@@ -74,8 +75,9 @@ src/
 1. Create a project in Appwrite and note the Project ID.
 2. Create a Database and note its Database ID.
 3. Create a `users` collection (or similar) and note its Collection ID.
-4. Configure email verification and sessions as desired.
-5. Add the values to `.env` using the keys listed above.
+4. Create a `products` collection (or similar) and note its Collection ID.
+5. Configure email verification and sessions as desired.
+6. Add the values to `.env` using the keys listed above.
 
 ## AdSense and ERR_BLOCKED_BY_CLIENT
 
@@ -95,6 +97,7 @@ src/
 - Authentication issues: Ensure all Appwrite env vars are set correctly and that allowed platforms/origins include your site URL.
 - Styling not applied: Verify Tailwind is installed and `src/index.css` is imported in `src/main.jsx`.
 - AdSense errors: See section above; set `VITE_ADSENSE_PUBLISHER_ID` or leave empty during development.
+- Search not working: Ensure `VITE_APP_PROD_COLLECTION` is set to your products collection ID.
 
 ---
 MIT License

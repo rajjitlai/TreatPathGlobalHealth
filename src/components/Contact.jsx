@@ -51,91 +51,158 @@ const Contact = () => {
 
     return (
         <div className="container px-8 lg:px-16 pt-16 mx-auto" id="contact">
-            <h3 className="text-3xl font-bold mb-8 text-center">Contact Us</h3>
+            <div className="text-center mb-12">
+                <h3 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    Get In Touch
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+                    Have questions? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+                </p>
+            </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-gray-100 p-8 rounded-lg shadow-md flex flex-col justify-center">
-                    <h4 className="text-2xl font-semibold mb-4">Get in Touch</h4>
-                    <p className="text-gray-600 mb-6">
-                        Feel free to reach out to us. We are available for any inquiries or support.
-                    </p>
+                {/* Contact Info Card */}
+                <div className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-8 shadow-lg">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 rounded-2xl" />
+                    <div className="relative z-10">
+                        <h4 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+                            Contact Information
+                        </h4>
+                        <p className="text-gray-600 dark:text-gray-400 mb-8 leading-relaxed">
+                            Feel free to reach out to us. We are available for any inquiries or support with our advanced communication systems.
+                        </p>
 
-                    <div className="flex items-center gap-4 mb-4">
-                        <FaEnvelope className="text-primary text-2xl" />
-                        <span className="text-lg">treatpathglobal@gmail.com</span>
+                        <div className="space-y-6">
+                            <div className="flex items-center gap-4 group">
+                                <div className="p-3 bg-gradient-to-br from-primary to-secondary rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <FaEnvelope className="text-white text-xl" />
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-900 dark:text-gray-100">Email</p>
+                                    <p className="text-gray-600 dark:text-gray-400">treatpathglobal@gmail.com</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-4 group">
+                                <div className="p-3 bg-gradient-to-br from-accent to-primary rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <FaPhone className="text-white text-xl" />
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-900 dark:text-gray-100">Phone</p>
+                                    <p className="text-gray-600 dark:text-gray-400">+1 (555) 123-4567</p>
+                                </div>
+                            </div>
+
+                            <div className="flex items-center gap-4 group">
+                                <div className="p-3 bg-gradient-to-br from-secondary to-accent rounded-xl shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                    <FaMapMarkerAlt className="text-white text-xl" />
+                                </div>
+                                <div>
+                                    <p className="font-semibold text-gray-900 dark:text-gray-100">Location</p>
+                                    <p className="text-gray-600 dark:text-gray-400">Global Headquarters</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                {/* Right Section - Contact Form */}
-                <div className="bg-white p-8 rounded-lg shadow-md">
-                    <h4 className="text-2xl font-semibold mb-6">Send Us a Message</h4>
+                {/* Contact Form */}
+                <div className="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl p-8 shadow-lg">
+                    <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 rounded-2xl" />
+                    <div className="relative z-10">
+                        <h4 className="text-2xl font-bold mb-6 text-gray-900 dark:text-gray-100">
+                            Send Us a Message
+                        </h4>
 
-                    {successMessage && (
-                        <p className="text-green-500 text-lg mb-4">{successMessage}</p>
-                    )}
+                        {successMessage && (
+                            <div className="mb-6 p-4 bg-green-100 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl">
+                                <p className="text-green-700 dark:text-green-400 font-semibold">{successMessage}</p>
+                            </div>
+                        )}
 
-                    {errors.submit && <p className="text-red-500">{errors.submit}</p>}
+                        {errors.submit && (
+                            <div className="mb-6 p-4 bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl">
+                                <p className="text-red-700 dark:text-red-400">{errors.submit}</p>
+                            </div>
+                        )}
 
-                    <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-medium mb-1">Name</label>
-                            <input
-                                type="text"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleChange}
-                                className="w-full p-2 border rounded outline-none"
-                                placeholder="Enter your name"
-                            />
-                            {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
-                        </div>
+                        <form onSubmit={handleSubmit} className="space-y-6">
+                            <div>
+                                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                                    Name
+                                </label>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleChange}
+                                    className="w-full p-4 border border-gray-200 dark:border-gray-700 rounded-xl outline-none bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:border-primary dark:focus:border-primary transition-colors duration-300"
+                                    placeholder="Enter your name"
+                                />
+                                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                            </div>
 
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-medium mb-1">Email</label>
-                            <input
-                                type="email"
-                                name="email"
-                                value={formData.email}
-                                onChange={handleChange}
-                                className="w-full p-2 border rounded outline-none"
-                                placeholder="Enter your email"
-                            />
-                            {errors.email && <p className="text-red-500 text-sm">{errors.email}</p>}
-                        </div>
+                            <div>
+                                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                                    Email
+                                </label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    className="w-full p-4 border border-gray-200 dark:border-gray-700 rounded-xl outline-none bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:border-primary dark:focus:border-primary transition-colors duration-300"
+                                    placeholder="Enter your email"
+                                />
+                                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                            </div>
 
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-medium mb-1">Subject</label>
-                            <input
-                                type="text"
-                                name="subject"
-                                value={formData.subject}
-                                onChange={handleChange}
-                                className="w-full p-2 border rounded outline-none"
-                                placeholder="Enter subject"
-                            />
-                            {errors.subject && <p className="text-red-500 text-sm">{errors.subject}</p>}
-                        </div>
+                            <div>
+                                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                                    Subject
+                                </label>
+                                <input
+                                    type="text"
+                                    name="subject"
+                                    value={formData.subject}
+                                    onChange={handleChange}
+                                    className="w-full p-4 border border-gray-200 dark:border-gray-700 rounded-xl outline-none bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:border-primary dark:focus:border-primary transition-colors duration-300"
+                                    placeholder="Enter subject"
+                                />
+                                {errors.subject && <p className="text-red-500 text-sm mt-1">{errors.subject}</p>}
+                            </div>
 
-                        <div className="mb-4">
-                            <label className="block text-gray-700 font-medium mb-1">Message</label>
-                            <textarea
-                                name="message"
-                                value={formData.message}
-                                onChange={handleChange}
-                                className="w-full p-2 border rounded h-32 outline-none"
-                                placeholder="Enter your message"
-                            ></textarea>
-                            {errors.message && <p className="text-red-500 text-sm">{errors.message}</p>}
-                        </div>
+                            <div>
+                                <label className="block text-gray-700 dark:text-gray-300 font-semibold mb-2">
+                                    Message
+                                </label>
+                                <textarea
+                                    name="message"
+                                    value={formData.message}
+                                    onChange={handleChange}
+                                    className="w-full p-4 border border-gray-200 dark:border-gray-700 rounded-xl outline-none bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:border-primary dark:focus:border-primary transition-colors duration-300 resize-none"
+                                    rows="5"
+                                    placeholder="Enter your message"
+                                ></textarea>
+                                {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+                            </div>
 
-                        <button
-                            type="submit"
-                            className="w-full bg-primary text-white py-2 rounded hover:bg-secondary transition"
-                            disabled={loading}
-                        >
-                            {loading ? "Sending..." : "Send Message"}
-                        </button>
-                    </form>
+                            <button
+                                type="submit"
+                                disabled={loading}
+                                className="w-full bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white py-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {loading ? (
+                                    <span className="flex items-center justify-center gap-2">
+                                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                                        Sending...
+                                    </span>
+                                ) : (
+                                    "Send Message"
+                                )}
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

@@ -65,8 +65,22 @@ const SingleProduct = () => {
         return () => { document.head.removeChild(script); };
     }, [product]);
 
-    if (isLoading) return <h2 className="text-center text-lg">Loading...</h2>;
-    if (error) return <h2 className="text-red-500 text-center">{error}</h2>;
+    if (isLoading) return (
+        <div className="flex justify-center items-center py-20">
+            <div className="relative">
+                <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-secondary rounded-full animate-spin" style={{ animationDelay: '-0.5s' }}></div>
+            </div>
+        </div>
+    );
+
+    if (error) return (
+        <div className="text-center py-20">
+            <div className="bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8 max-w-md mx-auto">
+                <p className="text-red-700 dark:text-red-400 font-semibold">{error}</p>
+            </div>
+        </div>
+    );
 
     const handleBuyNow = () => {
         if (!user) {
@@ -77,57 +91,78 @@ const SingleProduct = () => {
         }
     };
 
-
     return (
-        <div className="container mx-auto px-4 py-10 flex flex-col lg:flex-row gap-6">
-            {/* Left Side - Product Details (Full width on small screens, 3/4 on large) */}
-            <div className="w-full lg:w-3/4 bg-white shadow-lg rounded-lg p-6 relative">
-                {/* Back Button (Sticky for mobile usability) */}
-                <button
-                    onClick={() => navigate(-1)}
-                    className="absolute top-2 left-2 lg:top-4 lg:left-4 flex items-center bg-gray-200 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-300 transition"
-                >
-                    <BsArrowLeft size={20} className="mr-2" /> Back
-                </button>
+        <div className="container mx-auto px-4 py-10 flex flex-col lg:flex-row gap-8">
+            {/* Left Side - Product Details */}
+            <div className="w-full lg:w-3/4 relative">
+                <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl shadow-lg p-8">
+                    {/* Back Button */}
+                    <button
+                        onClick={() => navigate(-1)}
+                        className="absolute top-4 left-4 flex items-center bg-gray-200/80 dark:bg-gray-700/80 text-gray-700 dark:text-gray-300 px-4 py-2 rounded-xl hover:bg-gray-300/80 dark:hover:bg-gray-600/80 transition-all duration-300 backdrop-blur-sm"
+                    >
+                        <BsArrowLeft size={20} className="mr-2" /> Back
+                    </button>
 
-                {product && (
-                    <div className="flex flex-col gap-6 mt-10">
-                        {/* Product Image */}
-                        <div className="w-full flex justify-center">
-                            <img
-                                src={product.item_image || "https://via.placeholder.com/500"}
-                                alt={product.item_name}
-                                className="w-full max-w-lg h-auto object-contain rounded-lg"
-                            />
+                    {product && (
+                        <div className="flex flex-col gap-8 mt-12">
+                            {/* Product Image */}
+                            <div className="w-full flex justify-center">
+                                <div className="relative group">
+                                    <img
+                                        src={product.item_image || "https://via.placeholder.com/500"}
+                                        alt={product.item_name}
+                                        className="w-full max-w-lg h-auto object-contain rounded-2xl transition-transform duration-500 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                                </div>
+                            </div>
+
+                            {/* Product Details */}
+                            <div className="space-y-6">
+                                <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-gray-100 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                                    {product.item_name}
+                                </h2>
+                                <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
+                                    {product.item_description}
+                                </p>
+
+                                {/* Affiliate Notice */}
+                                <AffiliateNotice />
+
+                                {/* Action Buttons */}
+                                <div className="flex flex-col sm:flex-row gap-4">
+                                    <button
+                                        onClick={handleBuyNow}
+                                        className="modern-button px-8 py-4 rounded-xl text-lg font-semibold"
+                                    >
+                                        Buy Now
+                                    </button>
+                                    <button
+                                        onClick={() => navigate(-1)}
+                                        className="px-8 py-4 rounded-xl text-lg font-semibold border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
+                                    >
+                                        Continue Shopping
+                                    </button>
+                                </div>
+                            </div>
                         </div>
-
-                        {/* Product Details */}
-                        <h2 className="text-2xl sm:text-3xl font-bold text-gray-800">{product.item_name}</h2>
-                        <p className="text-gray-600">{product.item_description}</p>
-
-                        {/* Affiliate Notice */}
-                        <AffiliateNotice />
-
-                        {/* Action Buttons */}
-                        <div className="mt-6 flex flex-col sm:flex-row gap-4">
-                            <button
-                                onClick={handleBuyNow}
-                                className="bg-gray-300 px-6 py-3 rounded-lg hover:bg-gray-400 transition"
-                            >
-                                Buy Now
-                            </button>
-                        </div>
-                    </div>
-                )}
+                    )}
+                </div>
             </div>
 
-            {/* Right Side - Related Products (Scrollable & full width on mobile) */}
-            <div className="w-full lg:w-1/4 bg-white shadow-lg rounded-lg p-4 max-h-[600px] overflow-y-auto">
-                {relatedProd.length > 0 ? (
-                    <RelatedProducts relatedProd={relatedProd} />
-                ) : (
-                    <p className="text-gray-500 text-center">No related products found.</p>
-                )}
+            {/* Right Side - Related Products */}
+            <div className="w-full lg:w-1/4">
+                <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl shadow-lg p-6 max-h-[600px] overflow-y-auto">
+                    <h3 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-4">Related Products</h3>
+                    {relatedProd.length > 0 ? (
+                        <RelatedProducts relatedProd={relatedProd} />
+                    ) : (
+                        <div className="text-center py-8">
+                            <p className="text-gray-500 dark:text-gray-400">No related products found.</p>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

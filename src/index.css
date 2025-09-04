@@ -4,9 +4,20 @@
 
 :root {
     --bg-page: #f8fafc;
-    /* slate-50 */
     --text-default: #0f172a;
-    /* slate-900 */
+    --card-bg: rgba(255, 255, 255, 0.8);
+    --card-border: rgba(229, 231, 235, 0.5);
+    --input-bg: rgba(255, 255, 255, 0.5);
+    --input-border: rgba(229, 231, 235, 1);
+}
+
+.dark {
+    --bg-page: #0f172a;
+    --text-default: #f1f5f9;
+    --card-bg: rgba(17, 24, 39, 0.8);
+    --card-border: rgba(55, 65, 81, 0.5);
+    --input-bg: rgba(31, 41, 55, 0.5);
+    --input-border: rgba(55, 65, 81, 1);
 }
 
 html,
@@ -19,11 +30,39 @@ body {
     background: var(--bg-page);
     color: var(--text-default);
     scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #0ea5e9, #0369a1);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #0369a1, #0ea5e9);
+}
+
+/* Dark mode scrollbar */
+.dark ::-webkit-scrollbar-thumb {
+    background: linear-gradient(to bottom, #0ea5e9, #0369a1);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(to bottom, #0369a1, #0ea5e9);
 }
 
 @layer components {
     .header_icons {
-        @apply bg-gray-200 rounded-md p-[6px] text-[14px] md:text-[16px] lg:text-[20px] cursor-pointer hover:bg-primary hover:text-white
+        @apply bg-white/20 dark:bg-gray-700/50 rounded-md p-[6px] text-[14px] md:text-[16px] lg:text-[20px] cursor-pointer text-white hover:bg-white/30 dark:hover:bg-gray-600/50 transition-all duration-300
     }
 
     .section {
@@ -31,6 +70,66 @@ body {
     }
 
     .card {
-        @apply bg-white border border-gray-100 rounded-xl shadow-sm;
+        @apply bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl shadow-lg;
     }
+
+    .glassmorphism {
+        @apply backdrop-blur-md bg-white/10 dark:bg-black/20 border border-white/20 dark:border-gray-700/30;
+    }
+
+    .gradient-text {
+        @apply bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent;
+    }
+
+    .gradient-border {
+        @apply border border-transparent bg-gradient-to-r from-primary to-secondary bg-clip-border;
+    }
+
+    .modern-input {
+        @apply w-full p-4 border border-gray-200 dark:border-gray-700 rounded-xl outline-none bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm focus:border-primary dark:focus:border-primary transition-colors duration-300;
+    }
+
+    .modern-button {
+        @apply bg-gradient-to-r from-primary to-secondary hover:from-secondary hover:to-primary text-white font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-lg shadow-md;
+    }
+
+    .loading-spinner {
+        @apply relative;
+    }
+
+    .loading-spinner::before {
+        content: '';
+        @apply absolute inset-0 w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin;
+    }
+
+    .loading-spinner::after {
+        content: '';
+        @apply absolute inset-0 w-16 h-16 border-4 border-transparent border-t-secondary rounded-full animate-spin;
+        animation-delay: -0.5s;
+    }
+}
+
+/* Smooth transitions for theme switching */
+* {
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Focus styles */
+*:focus {
+    outline: 2px solid #0ea5e9;
+    outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+    background: rgba(14, 165, 233, 0.3);
+    color: inherit;
+}
+
+/* Line clamp utility */
+.line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
 }

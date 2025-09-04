@@ -41,48 +41,79 @@ const Saved = () => {
     };
 
     if (authLoading) {
-        return <p className="text-center text-gray-500">Loading user data...</p>;
+        return (
+            <div className="flex justify-center items-center py-20">
+                <div className="relative">
+                    <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                    <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-secondary rounded-full animate-spin" style={{ animationDelay: '-0.5s' }}></div>
+                </div>
+            </div>
+        );
     }
 
     return (
-        <div className="max-w-6xl mx-auto p-6 bg-white text-gray-800 rounded-lg shadow-lg">
-            <h2 className="text-3xl font-bold text-center mb-8 text-black">Saved Products</h2>
+        <div className="bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-2xl shadow-lg p-8">
+            <div className="text-center mb-8">
+                <h2 className="text-3xl font-bold text-gray-900 dark:text-gray-100 mb-2">Saved Products</h2>
+                <p className="text-gray-600 dark:text-gray-400">Your favorite products in one place</p>
+            </div>
 
             {loading ? (
-                <p className="text-center text-gray-500">Loading saved products...</p>
+                <div className="flex justify-center items-center py-20">
+                    <div className="relative">
+                        <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                        <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-secondary rounded-full animate-spin" style={{ animationDelay: '-0.5s' }}></div>
+                    </div>
+                </div>
             ) : saved.length === 0 ? (
-                <p className="text-center text-gray-500">No saved products found.</p>
+                <div className="text-center py-20">
+                    <div className="bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 max-w-md mx-auto">
+                        <p className="text-gray-500 dark:text-gray-400 font-medium text-lg">No saved products found</p>
+                        <p className="text-gray-400 dark:text-gray-500 text-sm mt-2">Start saving products to see them here</p>
+                    </div>
+                </div>
             ) : (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {saved.map((product) => {
                         const productData = product.product;
 
                         if (!productData || !productData.item_image) {
-                            return <p key={product.$id} className="text-red-500">Invalid product data</p>;
+                            return (
+                                <div key={product.$id} className="bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+                                    <p className="text-red-700 dark:text-red-400 text-sm">Invalid product data</p>
+                                </div>
+                            );
                         }
 
                         return (
-                            <div key={product.$id} className="bg-white p-5 rounded-lg shadow-md border hover:shadow-lg transition-all">
-                                <img
-                                    src={productData.item_image}
-                                    alt={productData.item_name}
-                                    className="w-full h-48 object-cover rounded-md mb-4"
-                                />
-                                <h3 className="text-xl font-semibold text-gray-900">{productData.item_name}</h3>
-                                <p className="text-gray-600 text-sm mb-4">
+                            <div key={product.$id} className="group bg-white/50 dark:bg-gray-800/50 backdrop-blur-sm border border-gray-200/50 dark:border-gray-700/50 rounded-xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                                <div className="relative overflow-hidden rounded-lg mb-4">
+                                    <img
+                                        src={productData.item_image}
+                                        alt={productData.item_name}
+                                        className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                                    />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                                </div>
+
+                                <h3 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-2 line-clamp-2">
+                                    {productData.item_name}
+                                </h3>
+
+                                <p className="text-gray-600 dark:text-gray-400 text-sm mb-4 line-clamp-3">
                                     {truncateDescription(productData.item_description)}
                                 </p>
 
-                                <div className="flex justify-between">
+                                <div className="flex justify-between gap-3">
                                     <a
                                         href={`/product/${productData.$id}`}
-                                        className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded-md transition"
+                                        className="flex-1 bg-primary hover:bg-secondary text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105 text-center"
                                     >
                                         View
                                     </a>
                                     <button
                                         onClick={() => deleteSave(product.$id)}
-                                        className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-md transition"
+                                        className="flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 transform hover:scale-105"
                                     >
                                         Remove
                                     </button>
@@ -94,10 +125,10 @@ const Saved = () => {
             )}
 
             {/* Back Button */}
-            <div className="mt-6 flex justify-center">
+            <div className="mt-8 flex justify-center">
                 <button
                     onClick={() => window.history.back()}
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-6 rounded-md"
+                    className="px-6 py-3 bg-gray-500 hover:bg-gray-600 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                     Back
                 </button>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 
 const HeaderTop = () => {
     return (
-        <div className='hidden sm:block bg-primary text-white'>
+        <div className='hidden sm:block bg-primary text-white dark:bg-secondary'>
             <div className="container py-2 px-4 md:px-16">
                 <div className="flex justify-between items-center text-sm">
                     <div className="hidden lg:flex gap-4">

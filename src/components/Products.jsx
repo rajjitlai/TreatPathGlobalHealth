@@ -47,14 +47,30 @@ const Products = ({ filter }) => {
 
     return (
         <div className="container px-8 lg:px-16 pt-16 mx-auto" id="products">
-            <h3 className="text-3xl font-bold mb-8 text-center">Products</h3>
+            <div className="text-center mb-12">
+                <h3 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                    Featured Products
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
+                    Discover our curated collection of premium health and pet care products
+                </p>
+            </div>
 
             {isLoading ? (
-                <p>Loading...</p>
+                <div className="flex justify-center items-center py-20">
+                    <div className="relative">
+                        <div className="w-16 h-16 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+                        <div className="absolute inset-0 w-16 h-16 border-4 border-transparent border-t-secondary rounded-full animate-spin" style={{ animationDelay: '-0.5s' }}></div>
+                    </div>
+                </div>
             ) : error ? (
-                <p className="text-red-500">Error: {error}</p>
+                <div className="text-center py-20">
+                    <div className="bg-red-100 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8 max-w-md mx-auto">
+                        <p className="text-red-700 dark:text-red-400 font-semibold">Error: {error}</p>
+                    </div>
+                </div>
             ) : (
-                <div className="grid grid-cols-1 place-items-center sm:place-items-start sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10 xl:gap-x-20 xl:gap-y-10">
+                <div className="grid grid-cols-1 place-items-center sm:place-items-start sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:gap-x-8 xl:gap-y-8">
                     {products.length > 0 ? (
                         products.map((product) => (
                             <ProductCard
@@ -66,7 +82,11 @@ const Products = ({ filter }) => {
                             />
                         ))
                     ) : (
-                        <p className="text-gray-500">No products found.</p>
+                        <div className="col-span-full text-center py-20">
+                            <div className="bg-gray-100 dark:bg-gray-800/50 border border-gray-200 dark:border-gray-700 rounded-2xl p-8 max-w-md mx-auto">
+                                <p className="text-gray-500 dark:text-gray-400 font-medium">No products found.</p>
+                            </div>
+                        </div>
                     )}
                 </div>
             )}
