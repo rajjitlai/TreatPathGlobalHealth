@@ -108,15 +108,15 @@ const SingleProduct = () => {
                         {/* Affiliate Notice */}
                         <AffiliateNotice />
 
-                        {/* Action Buttons */
-                            <div className="mt-6 flex flex-col sm:flex-row gap-4">
-                                <button
-                                    onClick={handleBuyNow}
-                                    className="bg-gray-300 px-6 py-3 rounded-lg hover:bg-gray-400 transition"
-                                >
-                                    Buy Now
-                                </button>
-                            </div>
+                        {/* Action Buttons */}
+                        <div className="mt-6 flex flex-col sm:flex-row gap-4">
+                            <button
+                                onClick={handleBuyNow}
+                                className="bg-gray-300 px-6 py-3 rounded-lg hover:bg-gray-400 transition"
+                            >
+                                Buy Now
+                            </button>
+                        </div>
                     </div>
                 )}
             </div>
