@@ -14,8 +14,10 @@ export const theme = {
       }
     },
     colors: {
-      primary: "#1da4ed",
-      secondary: "#0091EA",
+      primary: "#0ea5e9", // sky-500
+      secondary: "#0369a1", // sky-800
+      accent: "#22c55e", // green-500
+      muted: "#64748b" // slate-500
     }
   },
 };

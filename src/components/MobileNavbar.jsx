@@ -31,13 +31,13 @@ const MobileSidebar = ({ setFilter }) => {
         <div className="lg:hidden fixed top-4 left-4 z-50">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-3xl p-2 bg-white rounded-full shadow-md"
+                className="text-3xl p-2 bg-white/90 backdrop-blur rounded-full shadow-md border border-gray-100"
             >
                 {isOpen ? <AiOutlineClose /> : <IoMenuOutline />}
             </button>
 
             <div
-                className={`fixed top-0 left-0 h-screen w-64 bg-white shadow-lg transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+                className={`fixed top-0 left-0 h-screen w-72 bg-white/95 backdrop-blur shadow-xl transform ${isOpen ? "translate-x-0" : "-translate-x-full"
                     } transition-transform duration-300 ease-in-out`}
             >
                 <button
@@ -47,7 +47,7 @@ const MobileSidebar = ({ setFilter }) => {
                     <AiOutlineClose />
                 </button>
 
-                <div className="p-6 px-12 mt-12 flex flex-col justify-between text-left">
+                <div className="p-6 px-8 mt-12 flex flex-col justify-between text-left">
                     {/* Category Buttons */}
                     <div className="flex flex-col gap-4">
                         {["All", "Hot", "Health", "Pets", "Men", "Women"].map((category) => (
@@ -57,7 +57,7 @@ const MobileSidebar = ({ setFilter }) => {
                                     setFilter(category);
                                     setIsOpen(false);
                                 }}
-                                className="hover:text-primary hover:underline text-left"
+                                className="px-3 py-2 rounded hover:text-primary hover:bg-primary/10 text-left transition"
                             >
                                 {category}
                             </button>
@@ -71,7 +71,7 @@ const MobileSidebar = ({ setFilter }) => {
                                 <a
                                     href={other.path}
                                     key={other.label}
-                                    className="block w-full text-center px-4 py-2 bg-primary text-white hover:bg-secondary hover:text-gray-200 mt-2"
+                                    className="block w-full text-center px-4 py-2 rounded-full bg-primary text-white hover:bg-secondary hover:text-white mt-2 transition"
                                     onClick={() => setIsOpen(false)} // Closes the sidebar on click
                                 >
                                     {other.label}

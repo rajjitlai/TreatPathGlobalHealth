@@ -12,6 +12,12 @@ import Layout from "./Layout";
 import { useEffect, useState } from "react";
 import VerifyEmail from "./auth/VerifyEmail";
 import VerifyPrompt from "./auth/VerifyPrompt";
+import Search from "./pages/Search";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+import AffiliateDisclosure from "./pages/AffiliateDisclosure";
+import About from "./pages/About";
+import FAQ from "./pages/FAQ";
 
 const PrivateRoute = ({ children }) => {
   const { user, loading } = useAuth();
@@ -43,7 +49,7 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-      
+
         <Route path="/login" element={user ? <Navigate to="/dashboard" replace /> : <Login />} />
         <Route path="/signup" element={user ? <Navigate to="/dashboard" replace /> : <Signup />} />
 
@@ -55,6 +61,13 @@ const App = () => {
 
         <Route path="/verify-email" element={<VerifyEmail />} />
         <Route path="/verify-prompt" element={<VerifyPrompt />} />
+
+        <Route path="/search" element={<Search />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/affiliate-disclosure" element={<AffiliateDisclosure />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/faq" element={<FAQ />} />
 
         <Route path="/dashboard" element={
           <PrivateRoute>

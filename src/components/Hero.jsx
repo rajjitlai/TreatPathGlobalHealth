@@ -28,18 +28,18 @@ const Hero = () => {
     }
 
     return (
-        <div>
-            <div className='pt-6 lg:pt-10'>
-                <Slider {...settings}>
-                    {slidesData.map((item) => <Slide 
+        <div className='section pt-6 lg:pt-10'>
+            <Slider {...settings}>
+                {slidesData.map((item) => (
+                    <Slide
                         key={item.id}
                         img={item.img}
                         title={item.title}
                         mainTitle={item.mainTitle}
                         price={item.price}
-                    />)}
-                </Slider>
-            </div>
+                    />
+                ))}
+            </Slider>
         </div>
     )
 }

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://www.treatpathglobal.com/sitemap.xml
+

@@ -3,14 +3,34 @@
 @tailwind utilities;
 
 :root {
-    background: #fbfbfb;
-    color: #010101;
-    font-family: 'Poppins', sans-serif;
+    --bg-page: #f8fafc;
+    /* slate-50 */
+    --text-default: #0f172a;
+    /* slate-900 */
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    background: var(--bg-page);
+    color: var(--text-default);
     scroll-behavior: smooth;
 }
 
 @layer components {
     .header_icons {
         @apply bg-gray-200 rounded-md p-[6px] text-[14px] md:text-[16px] lg:text-[20px] cursor-pointer hover:bg-primary hover:text-white
+    }
+
+    .section {
+        @apply container mx-auto px-4 md:px-16 py-12 md:py-16;
+    }
+
+    .card {
+        @apply bg-white border border-gray-100 rounded-xl shadow-sm;
     }
 }

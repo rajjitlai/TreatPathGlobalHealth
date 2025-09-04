@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { savePost, deleteSavedPost, getUserSavedProducts } from "../lib/createSaved";
 import { useAuth } from "../context/AuthContext"; // Get user from AuthContext
 
-const ProductCard = ({ id, img, title, desc}) => {
+const ProductCard = ({ id, img, title, desc }) => {
     const { user } = useAuth(); // Get authenticated user
     const userId = user?.$id;
 
@@ -74,7 +74,7 @@ const ProductCard = ({ id, img, title, desc}) => {
     };
 
     return (
-        <div className="border border-gray-200 rounded-lg max-w-[300px] shadow-md hover:shadow-lg transition-all p-4 relative">
+        <div className="group border border-gray-100 rounded-xl max-w-[300px] shadow-sm hover:shadow-lg transition-all p-4 relative bg-white hover:-translate-y-0.5">
             {userId && !loading && (
                 <button
                     className="absolute top-3 right-3 text-2xl text-gray-600 hover:text-primary transition z-50"
@@ -85,10 +85,10 @@ const ProductCard = ({ id, img, title, desc}) => {
             )}
 
             <Link to={`/product/${id}`} className="block">
-                <img src={img} alt={title} className="w-full h-[250px] object-cover rounded-lg" />
+                <img src={img} alt={`${title} product image`} loading="lazy" className="w-full h-[250px] object-cover rounded-lg" />
                 <div className="space-y-2 pt-4 text-center">
-                    <h2 className="text-primary font-semibold uppercase">{title}</h2>
-                    <p className="text-gray-500 text-sm max-w-[200px] mx-auto">{desc}</p>
+                    <h2 className="text-gray-900 group-hover:text-primary transition font-semibold uppercase">{title}</h2>
+                    <p className="text-muted text-sm max-w-[220px] mx-auto">{desc}</p>
                 </div>
             </Link>
         </div>

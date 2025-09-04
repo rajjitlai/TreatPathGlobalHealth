@@ -3,43 +3,43 @@ import { navOther } from "../constants";
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ setFilter }) => {
   return (
-    <div className="hidden lg:block mt-16">
-      <div className="container px-16">
-        <div className="flex w-fit gap-10 mx-auto font-medium text-lg py-4 text-black items-center">
+    <div className="hidden lg:block mt-10">
+      <div className="container px-4 md:px-16">
+        <div className="flex w-fit gap-6 md:gap-8 mx-auto font-medium text-sm md:text-base py-3 text-black items-center bg-white/70 backdrop-blur rounded-full px-4 shadow-sm border border-gray-100">
           {/* Category Buttons */}
           <button
             onClick={() => setFilter("All")}
-            className="hover:text-primary hover:underline uppercase"
+            className="px-3 py-1 rounded-full hover:text-primary hover:bg-primary/10 transition uppercase"
           >
             All
           </button>
           <button
             onClick={() => setFilter("Hot")}
-            className="hover:text-primary hover:underline uppercase"
+            className="px-3 py-1 rounded-full hover:text-primary hover:bg-primary/10 transition uppercase"
           >
             Hot
           </button>
           <button
             onClick={() => setFilter("Health")}
-            className="hover:text-primary hover:underline uppercase"
+            className="px-3 py-1 rounded-full hover:text-primary hover:bg-primary/10 transition uppercase"
           >
             Health
           </button>
           <button
             onClick={() => setFilter("Pets")}
-            className="hover:text-primary hover:underline uppercase"
+            className="px-3 py-1 rounded-full hover:text-primary hover:bg-primary/10 transition uppercase"
           >
             Pets
           </button>
           <button
             onClick={() => setFilter("Men")}
-            className="hover:text-primary hover:underline uppercase"
+            className="px-3 py-1 rounded-full hover:text-primary hover:bg-primary/10 transition uppercase"
           >
             Men
           </button>
           <button
             onClick={() => setFilter("Women")}
-            className="hover:text-primary hover:underline uppercase"
+            className="px-3 py-1 rounded-full hover:text-primary hover:bg-primary/10 transition uppercase"
           >
             Women
           </button>
@@ -49,7 +49,7 @@ const Navbar = ({ setFilter }) => {
             <button
               key={other.label}
               onClick={() => setFilter(other.label)}
-              className="uppercase px-4 p-2 bg-primary text-white hover:bg-secondary hover:text-gray-200"
+              className="uppercase px-4 py-2 rounded-full bg-primary text-white hover:bg-secondary hover:text-white transition"
             >
               {other.label}
             </button>
