@@ -4,6 +4,7 @@ import HeaderTop from "./components/HeaderTop";
 import HeaderMain from "./components/HeaderMain";
 import Footer from "./components/Footer";
 import CookieConsent from "./components/CookieConsent";
+import AffiliateNotice from "./components/AffiliateNotice";
 import { useTheme } from "./context/ThemeContext";
 
 const Layout = ({ children }) => {
@@ -25,6 +26,9 @@ const Layout = ({ children }) => {
             <main className="flex-1 container mx-auto px-4 md:px-16 py-8 md:py-10">
                 {children}
             </main>
+            <div className="container mx-auto px-4 md:px-16 pb-4">
+                <AffiliateNotice />
+            </div>
             <Footer />
             <CookieConsent />
         </div>

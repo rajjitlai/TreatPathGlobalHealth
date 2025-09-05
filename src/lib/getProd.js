@@ -1,15 +1,35 @@
 import {Query} from "appwrite"
 import { database } from "../config/appwrite"
 
-export const getProd = async () =>{
+export const getProd = async (page = 1, limit = 12) =>{
     try{
         const databaseId = import.meta.env.VITE_APP_DB
         const collectionId = import.meta.env.VITE_APP_PROD_COLLECTION
 
-        const response = await database.listDocuments(databaseId, collectionId, [Query.limit(32)])
-        return response.documents
+        // Calculate offset for pagination
+        const offset = (page - 1) * limit
+
+        const response = await database.listDocuments(databaseId, collectionId, [
+            Query.orderDesc('$createdAt'), // Order by creation date, newest first
+            Query.limit(limit),
+            Query.offset(offset)
+        ])
+        
+        return {
+            documents: response.documents,
+            total: response.total,
+            page: page,
+            limit: limit,
+            totalPages: Math.ceil(response.total / limit)
+        }
     }catch(error){
         console.error("An error occurred", error)
-        return []
+        return {
+            documents: [],
+            total: 0,
+            page: 1,
+            limit: limit,
+            totalPages: 0
+        }
     }
 }

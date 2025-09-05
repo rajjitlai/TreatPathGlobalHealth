@@ -1,16 +1,26 @@
 import { database } from "../config/appwrite";
 import { Query } from "appwrite";
 
-export const searchProducts = async (term) => {
-    if (!term || !term.trim()) return [];
+export const searchProducts = async (term, page = 1, limit = 12) => {
+    if (!term || !term.trim()) return {
+        documents: [],
+        total: 0,
+        page: 1,
+        limit: limit,
+        totalPages: 0
+    };
 
     try {
         const databaseId = import.meta.env.VITE_APP_DB;
         const collectionId = import.meta.env.VITE_APP_PROD_COLLECTION;
 
-        // First try to get all products and filter client-side for better results
+        // Calculate offset for pagination
+        const offset = (page - 1) * limit;
+
+        // Get products with ordering and pagination
         const allProducts = await database.listDocuments(databaseId, collectionId, [
-            Query.limit(100) // Get more products to search through
+            Query.orderDesc('$createdAt'), // Order by creation date, newest first
+            Query.limit(200) // Get more products to search through
         ]);
 
         const searchTerm = term.toLowerCase().trim();
@@ -39,10 +49,26 @@ export const searchProducts = async (term) => {
             );
         });
 
-        return filteredProducts.slice(0, 24); // Limit to 24 results
+        // Apply pagination to filtered results
+        const total = filteredProducts.length;
+        const paginatedResults = filteredProducts.slice(offset, offset + limit);
+
+        return {
+            documents: paginatedResults,
+            total: total,
+            page: page,
+            limit: limit,
+            totalPages: Math.ceil(total / limit)
+        };
     } catch (error) {
         console.error("Error searching products:", error);
-        return [];
+        return {
+            documents: [],
+            total: 0,
+            page: 1,
+            limit: limit,
+            totalPages: 0
+        };
     }
 };
 

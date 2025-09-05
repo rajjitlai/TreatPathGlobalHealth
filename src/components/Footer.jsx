@@ -1,4 +1,5 @@
 import { FaFacebook, FaInstagram, FaSnapchat, FaPinterest } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
     return (
@@ -17,19 +18,19 @@ const Footer = () => {
                     <div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Company</h3>
                         <ul className="mt-2 space-y-2">
-                            <li><a href="#products" className="hover:text-primary hover:underline">Products</a></li>
-                            <li><a href="#services" className="hover:text-primary hover:underline">Services</a></li>
-                            <li><a href="/about" className="hover:text-primary hover:underline">About</a></li>
-                            <li><a href="/faq" className="hover:text-primary hover:underline">FAQ</a></li>
+                            <li><Link to="/#products" className="hover:text-primary hover:underline">Products</Link></li>
+                            <li><Link to="/#services" className="hover:text-primary hover:underline">Services</Link></li>
+                            <li><Link to="/about" className="hover:text-primary hover:underline">About</Link></li>
+                            <li><Link to="/faq" className="hover:text-primary hover:underline">FAQ</Link></li>
                         </ul>
                     </div>
                     <div>
                         <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100">Support</h3>
                         <ul className="mt-2 space-y-2">
-                            <li><a href="#contact" className="hover:text-primary hover:underline">Contact Us</a></li>
-                            <li><a href="/terms" className="hover:text-primary hover:underline">Terms</a></li>
-                            <li><a href="/privacy" className="hover:text-primary hover:underline">Privacy</a></li>
-                            <li><a href="/affiliate-disclosure" className="hover:text-primary hover:underline">Affiliate Disclosure</a></li>
+                            <li><Link to="/#contact" className="hover:text-primary hover:underline">Contact Us</Link></li>
+                            <li><Link to="/terms" className="hover:text-primary hover:underline">Terms</Link></li>
+                            <li><Link to="/privacy" className="hover:text-primary hover:underline">Privacy</Link></li>
+                            <li><Link to="/affiliate-disclosure" className="hover:text-primary hover:underline">Affiliate Disclosure</Link></li>
                         </ul>
                     </div>
                 </div>

@@ -1,7 +1,19 @@
 import { navOther } from "../constants";
+import { useNavigate } from "react-router-dom";
 
 // eslint-disable-next-line react/prop-types
 const Navbar = ({ setFilter }) => {
+  const navigate = useNavigate();
+
+  const handleNavClick = (item) => {
+    if (item.label === 'Services') {
+      navigate('/#services');
+    } else if (item.label === 'Contact') {
+      navigate('/#contact');
+    } else {
+      setFilter(item.label);
+    }
+  };
   return (
     <div className="hidden lg:block mt-10">
       <div className="container px-4 md:px-16">
@@ -48,7 +60,7 @@ const Navbar = ({ setFilter }) => {
           {navOther.map((other) => (
             <button
               key={other.label}
-              onClick={() => setFilter(other.label)}
+              onClick={() => handleNavClick(other)}
               className="uppercase px-4 py-2 rounded-full bg-primary text-white hover:bg-secondary hover:text-white transition"
             >
               {other.label}

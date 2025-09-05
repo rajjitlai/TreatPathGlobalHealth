@@ -68,14 +68,20 @@ const MobileSidebar = ({ setFilter }) => {
                     {navOther?.length > 0 && (
                         <div className="mt-4">
                             {navOther.map((other) => (
-                                <a
-                                    href={other.path}
+                                <button
                                     key={other.label}
+                                    onClick={() => {
+                                        if (other.label === 'Services') {
+                                            navigate('/#services');
+                                        } else if (other.label === 'Contact') {
+                                            navigate('/#contact');
+                                        }
+                                        setIsOpen(false);
+                                    }}
                                     className="block w-full text-center px-4 py-2 rounded-full bg-primary text-white hover:bg-secondary hover:text-white mt-2 transition"
-                                    onClick={() => setIsOpen(false)} // Closes the sidebar on click
                                 >
                                     {other.label}
-                                </a>
+                                </button>
                             ))}
                         </div>
                     )}

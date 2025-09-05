@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
+import Pagination from "./Pagination";
 import { getProd } from "../lib/getProd";
 
 // Import other product category components
@@ -14,6 +15,9 @@ const Products = ({ filter }) => {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    const [totalProducts, setTotalProducts] = useState(0);
 
     useEffect(() => {
         if (filter === "All") {
@@ -21,8 +25,10 @@ const Products = ({ filter }) => {
                 setIsLoading(true);
                 setError(null);
                 try {
-                    const gotProd = await getProd();
-                    setProducts(gotProd);
+                    const result = await getProd(currentPage, 12);
+                    setProducts(result.documents);
+                    setTotalPages(result.totalPages);
+                    setTotalProducts(result.total);
                 } catch (err) {
                     console.error("Error fetching products", err);
                     setError(err.message);
@@ -33,7 +39,13 @@ const Products = ({ filter }) => {
 
             fetchProducts();
         }
-    }, [filter]);
+    }, [filter, currentPage]);
+
+    const handlePageChange = (page) => {
+        setCurrentPage(page);
+        // Scroll to top when page changes
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
 
     const truncateDescription = (desc, length = 100) => {
         return desc.length > length ? `${desc.substring(0, length)}...` : desc;
@@ -54,6 +66,11 @@ const Products = ({ filter }) => {
                 <p className="text-gray-600 dark:text-gray-400 text-lg max-w-2xl mx-auto">
                     Discover our curated collection of premium health and pet care products
                 </p>
+                {totalProducts > 0 && (
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        Showing {((currentPage - 1) * 12) + 1}-{Math.min(currentPage * 12, totalProducts)} of {totalProducts} products
+                    </p>
+                )}
             </div>
 
             {isLoading ? (
@@ -90,6 +107,14 @@ const Products = ({ filter }) => {
                     )}
                 </div>
             )}
+
+            {/* Pagination */}
+            <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+                isLoading={isLoading}
+            />
         </div>
     );
 };

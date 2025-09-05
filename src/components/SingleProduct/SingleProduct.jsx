@@ -6,7 +6,6 @@ import RelatedProducts from "./RelatedProducts";
 import { BsArrowLeft } from "react-icons/bs";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
-import AffiliateNotice from "../AffiliateNotice";
 import { useEffect as useReactEffect } from "react";
 
 const SingleProduct = () => {
@@ -127,22 +126,19 @@ const SingleProduct = () => {
                                     {product.item_description}
                                 </p>
 
-                                {/* Affiliate Notice */}
-                                <AffiliateNotice />
-
                                 {/* Action Buttons */}
                                 <div className="flex flex-col sm:flex-row gap-4">
                                     <button
                                         onClick={handleBuyNow}
                                         className="modern-button px-8 py-4 rounded-xl text-lg font-semibold"
                                     >
-                                        Buy Now
+                                        Know More
                                     </button>
                                     <button
                                         onClick={() => navigate(-1)}
                                         className="px-8 py-4 rounded-xl text-lg font-semibold border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
                                     >
-                                        Continue Shopping
+                                        Browse Similar Products
                                     </button>
                                 </div>
                             </div>

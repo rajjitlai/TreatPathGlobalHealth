@@ -1,6 +1,17 @@
 import { FaShieldAlt, FaShippingFast, FaHeadset } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Services = () => {
+    const navigate = useNavigate();
+
+    const handleLearnMore = () => {
+        navigate('/about');
+    };
+
+    const handleGetHelp = () => {
+        navigate('/faq');
+    };
+
     return (
         <div className="section" id="services">
             <div className="text-center mb-12">
@@ -28,16 +39,19 @@ const Services = () => {
                             </h4>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                            All medicines are sourced from trusted suppliers and verified for quality with advanced authentication systems.
+                            We carefully curate health and pet care products from reputable merchants, ensuring you get access to quality treatments and wellness solutions.
                         </p>
 
                         {/* Hover effect indicator */}
-                        <div className="mt-6 flex items-center gap-2 text-primary dark:text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            onClick={handleLearnMore}
+                            className="mt-6 flex items-center gap-2 text-primary dark:text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:text-secondary dark:hover:text-secondary cursor-pointer"
+                        >
                             <span>Learn More</span>
                             <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
-                        </div>
+                        </button>
                     </div>
                 </div>
 
@@ -51,19 +65,22 @@ const Services = () => {
                                 <FaShippingFast className="text-white text-2xl" />
                             </div>
                             <h4 className="text-xl font-bold text-gray-900 dark:text-gray-100">
-                                Fast Shipping
+                                Easy Discovery
                             </h4>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                            Quick and reliable delivery with real-time tracking so your care is never delayed.
+                            Browse through our organized categories and use our search functionality to quickly find the health and pet care products you need.
                         </p>
 
-                        <div className="mt-6 flex items-center gap-2 text-primary dark:text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                            <span>Track Order</span>
+                        <button
+                            onClick={() => navigate('/#products')}
+                            className="mt-6 flex items-center gap-2 text-primary dark:text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:text-secondary dark:hover:text-secondary cursor-pointer"
+                        >
+                            <span>Browse Products</span>
                             <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
-                        </div>
+                        </button>
                     </div>
                 </div>
 
@@ -81,15 +98,18 @@ const Services = () => {
                             </h4>
                         </div>
                         <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                            Friendly customer support team available round the clock with AI-powered assistance.
+                            Get help with product recommendations, find answers to common questions, and receive guidance on health and pet care products.
                         </p>
 
-                        <div className="mt-6 flex items-center gap-2 text-primary dark:text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <button
+                            onClick={handleGetHelp}
+                            className="mt-6 flex items-center gap-2 text-primary dark:text-primary font-semibold text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:text-secondary dark:hover:text-secondary cursor-pointer"
+                        >
                             <span>Get Help</span>
                             <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                             </svg>
-                        </div>
+                        </button>
                     </div>
                 </div>
             </div>

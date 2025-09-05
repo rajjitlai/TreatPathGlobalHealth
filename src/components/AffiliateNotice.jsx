@@ -1,9 +1,8 @@
 const AffiliateNotice = () => {
     return (
-        <div className="card p-4 md:p-5 border border-amber-200/50 dark:border-amber-600/50 bg-amber-50/80 dark:bg-amber-900/20 text-amber-900 dark:text-amber-100 rounded-xl backdrop-blur-sm">
-            <h3 className="font-semibold mb-1 text-amber-800 dark:text-amber-200">Affiliate Notice</h3>
-            <p className="text-sm text-amber-700 dark:text-amber-300">
-                We may earn a commission when you purchase through links on our site. This helps support our work at no extra cost to you. Learn more in our <a href="/affiliate-disclosure" className="underline text-amber-800 dark:text-amber-200 hover:text-amber-600 dark:hover:text-amber-400 transition-colors">Affiliate Disclosure</a>.
+        <div className="bg-blue-50/80 dark:bg-blue-900/20 border border-blue-200/50 dark:border-blue-600/50 text-blue-800 dark:text-blue-200 rounded-lg p-3 text-sm">
+            <p className="text-center">
+                <span className="font-medium">Note:</span> We may earn a small commission from purchases made through our links, at no extra cost to you. This helps us maintain our service. <a href="/affiliate-disclosure" className="underline hover:text-blue-600 dark:hover:text-blue-400 transition-colors">Learn more</a>.
             </p>
         </div>
     );
