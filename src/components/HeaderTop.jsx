@@ -30,7 +30,7 @@ const HeaderTop = () => {
                     </div>
 
                     <div className='text-white/90'>
-                        <b>FREE CREDITS</b> for opening a new account
+                        Welcome to TreatPath Global Health
                     </div>
 
                     {/* extra */}

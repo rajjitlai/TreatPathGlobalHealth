@@ -62,7 +62,8 @@ const Search = () => {
                             value={q}
                             onChange={(e) => setQ(e.target.value)}
                             placeholder={placeholder}
-                            className="w-full border border-gray-200 dark:border-gray-700 rounded-2xl px-6 py-4 pl-12 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary dark:bg-gray-800/50 dark:text-gray-100 backdrop-blur-sm transition-all duration-300"
+                            className="w-full border border-gray-200 dark:border-gray-700 rounded-2xl px-6 py-4 pl-12 pr-4 outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary dark:bg-gray-800/50 dark:text-gray-100 backdrop-blur-sm transition-all duration-300 text-lg"
+                            autoFocus
                         />
                         <BsSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 dark:text-gray-500 text-xl" />
                     </div>
@@ -84,16 +85,25 @@ const Search = () => {
                         </div>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 place-items-center sm:place-items-start sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:gap-x-8 xl:gap-y-8 mt-12">
-                        {results.map((product) => (
-                            <ProductCard
-                                key={product.$id}
-                                id={product.$id}
-                                img={product.item_image}
-                                title={product.item_name}
-                                desc={product.item_description}
-                            />
-                        ))}
+                    <div className="mt-12">
+                        {results.length > 0 && (
+                            <div className="text-center mb-8">
+                                <p className="text-gray-600 dark:text-gray-400">
+                                    Found {results.length} product{results.length !== 1 ? 's' : ''} for "{q}"
+                                </p>
+                            </div>
+                        )}
+                        <div className="grid grid-cols-1 place-items-center sm:place-items-start sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 xl:gap-x-8 xl:gap-y-8">
+                            {results.map((product) => (
+                                <ProductCard
+                                    key={product.$id}
+                                    id={product.$id}
+                                    img={product.item_image}
+                                    title={product.item_name}
+                                    desc={product.item_description}
+                                />
+                            ))}
+                        </div>
                     </div>
                 )}
             </div>
