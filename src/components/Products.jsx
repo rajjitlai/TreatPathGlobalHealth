@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
 import ProductCard from "./ProductCard";
 import Pagination from "./Pagination";
 import { getProd } from "../lib/getProd";
+import useProductsWithSavedStatus from "../hooks/useProductsWithSavedStatus";
 
 // Import other product category components
 import Health from "./filterComponents/Health";
@@ -12,40 +12,26 @@ import Hot from "./filterComponents/Hot";
 
 // eslint-disable-next-line react/prop-types
 const Products = ({ filter }) => {
-    const [products, setProducts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    const [totalProducts, setTotalProducts] = useState(0);
+    const {
+        products,
+        isLoading,
+        error,
+        currentPage,
+        totalPages,
+        totalProducts,
+        savedProducts,
+        handlePageChange,
+        handleSaveToggle
+    } = useProductsWithSavedStatus(
+        getProd,
+        [12], // Only pass the limit, currentPage is handled internally
+        [filter] // Remove currentPage from dependencies since it's handled internally
+    );
 
-    useEffect(() => {
-        if (filter === "All") {
-            const fetchProducts = async () => {
-                setIsLoading(true);
-                setError(null);
-                try {
-                    const result = await getProd(currentPage, 12);
-                    setProducts(result.documents);
-                    setTotalPages(result.totalPages);
-                    setTotalProducts(result.total);
-                } catch (err) {
-                    console.error("Error fetching products", err);
-                    setError(err.message);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
-
-            fetchProducts();
-        }
-    }, [filter, currentPage]);
-
-    const handlePageChange = (page) => {
-        setCurrentPage(page);
-        // Scroll to top when page changes
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
+    // Only render products when filter is "All"
+    if (filter !== "All") {
+        return null;
+    }
 
     const truncateDescription = (desc, length = 100) => {
         return desc.length > length ? `${desc.substring(0, length)}...` : desc;
@@ -96,6 +82,8 @@ const Products = ({ filter }) => {
                                 img={product.item_image}
                                 title={product.item_name}
                                 desc={truncateDescription(product.item_description)}
+                                isSaved={savedProducts.has(product.$id)}
+                                onSaveToggle={handleSaveToggle}
                             />
                         ))
                     ) : (

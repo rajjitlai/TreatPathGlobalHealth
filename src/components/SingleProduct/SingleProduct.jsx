@@ -7,6 +7,8 @@ import { BsArrowLeft } from "react-icons/bs";
 import { useAuth } from "../../context/AuthContext";
 import toast from "react-hot-toast";
 import { useEffect as useReactEffect } from "react";
+import useSEO from "../../hooks/useSEO";
+import { getProductDataForAutomation, createAPIResponse } from "../../lib/productAPI";
 
 const SingleProduct = () => {
     const { id } = useParams();
@@ -26,7 +28,8 @@ const SingleProduct = () => {
                 setProduct(prodData);
 
                 if (prodData?.tags?.length > 0) {
-                    let relatedProds = await getProdByTags(prodData.tags);
+                    const relatedResponse = await getProdByTags(prodData.tags);
+                    let relatedProds = relatedResponse.documents || [];
                     relatedProds = relatedProds.filter((prod) => prod.$id !== id);
                     setRelatedProd(relatedProds);
                 }
@@ -41,27 +44,117 @@ const SingleProduct = () => {
         fetchProdData();
     }, [id]);
 
-    // Inject Product JSON-LD for SEO
+    // Use SEO hook for dynamic meta tags with full description for automation
+    useSEO({
+        title: product?.item_name,
+        description: product?.item_description,
+        image: product?.item_image,
+        type: 'product',
+        fullDescription: true // Use full description for n8n automation
+    });
+
+    // Inject comprehensive meta tags and JSON-LD for SEO and automation
     useReactEffect(() => {
         if (!product) return;
+
+        // Add custom meta tags for n8n automation
+        const addOrUpdateMetaTag = (name, content, isProperty = false) => {
+            const selector = isProperty ? `meta[property="${name}"]` : `meta[name="${name}"]`;
+            let metaTag = document.querySelector(selector);
+
+            if (metaTag) {
+                metaTag.setAttribute('content', content);
+            } else {
+                metaTag = document.createElement('meta');
+                if (isProperty) {
+                    metaTag.setAttribute('property', name);
+                } else {
+                    metaTag.setAttribute('name', name);
+                }
+                metaTag.setAttribute('content', content);
+                document.head.appendChild(metaTag);
+            }
+        };
+
+        // Add automation-friendly meta tags
+        addOrUpdateMetaTag('product-name', product.item_name);
+        addOrUpdateMetaTag('product-description', product.item_description);
+        addOrUpdateMetaTag('product-image', product.item_image || '');
+        addOrUpdateMetaTag('product-id', product.$id);
+        addOrUpdateMetaTag('product-tags', Array.isArray(product.tags) ? product.tags.join(', ') : (product.tags || ''));
+        addOrUpdateMetaTag('product-link', product.item_link || '');
+        addOrUpdateMetaTag('product-category', product.category || '');
+        addOrUpdateMetaTag('product-brand', product.brand || '');
+        addOrUpdateMetaTag('product-price', product.price || '');
+        addOrUpdateMetaTag('product-availability', product.availability || 'in-stock');
+
+        // Enhanced JSON-LD structured data
         const data = {
             "@context": "https://schema.org",
             "@type": "Product",
             name: product.item_name,
-            image: product.item_image ? [product.item_image] : [],
             description: product.item_description,
+            image: product.item_image ? [product.item_image] : [],
+            identifier: product.$id,
+            url: window.location.href,
+            category: product.category || '',
+            brand: product.brand ? {
+                "@type": "Brand",
+                name: product.brand
+            } : undefined,
             offers: {
                 "@type": "Offer",
-                url: window.location.href,
+                url: product.item_link || window.location.href,
                 priceCurrency: "USD",
-                availability: "https://schema.org/InStock"
-            }
+                availability: "https://schema.org/InStock",
+                price: product.price || "0"
+            },
+            additionalProperty: Array.isArray(product.tags) ? product.tags.map(tag => ({
+                "@type": "PropertyValue",
+                name: "tag",
+                value: tag
+            })) : []
         };
+
+        // Remove undefined properties
+        Object.keys(data).forEach(key => {
+            if (data[key] === undefined) {
+                delete data[key];
+            }
+        });
+
         const script = document.createElement("script");
         script.type = "application/ld+json";
         script.text = JSON.stringify(data);
         document.head.appendChild(script);
-        return () => { document.head.removeChild(script); };
+
+        // Make product data available globally for n8n automation
+        window.getCurrentProductData = () => {
+            return getProductDataForAutomation(product);
+        };
+
+        window.getCurrentProductAPIResponse = () => {
+            return createAPIResponse(product);
+        };
+
+        return () => {
+            document.head.removeChild(script);
+            // Clean up custom meta tags
+            const customMetaTags = [
+                'product-name', 'product-description', 'product-image',
+                'product-id', 'product-tags', 'product-link',
+                'product-category', 'product-brand', 'product-price', 'product-availability'
+            ];
+            customMetaTags.forEach(name => {
+                const tag = document.querySelector(`meta[name="${name}"]`);
+                if (tag) {
+                    document.head.removeChild(tag);
+                }
+            });
+            // Clean up global functions
+            delete window.getCurrentProductData;
+            delete window.getCurrentProductAPIResponse;
+        };
     }, [product]);
 
     if (isLoading) return (
@@ -104,7 +197,18 @@ const SingleProduct = () => {
                     </button>
 
                     {product && (
-                        <div className="flex flex-col gap-8 mt-12">
+                        <div
+                            className="flex flex-col gap-8 mt-12"
+                            data-product-id={product.$id}
+                            data-product-name={product.item_name}
+                            data-product-description={product.item_description}
+                            data-product-image={product.item_image}
+                            data-product-link={product.item_link}
+                            data-product-tags={Array.isArray(product.tags) ? product.tags.join(',') : (product.tags || '')}
+                            data-product-category={product.category || ''}
+                            data-product-brand={product.brand || ''}
+                            data-product-price={product.price || ''}
+                        >
                             {/* Product Image */}
                             <div className="w-full flex justify-center">
                                 <div className="relative group">

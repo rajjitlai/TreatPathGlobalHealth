@@ -2,49 +2,21 @@
 import { useState, useEffect } from "react";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
-import { savePost, deleteSavedPost, getUserSavedProducts } from "../lib/createSaved";
+import { savePost, deleteSavedPost } from "../lib/createSaved";
 import { useAuth } from "../context/AuthContext"; // Get user from AuthContext
 
-const ProductCard = ({ id, img, title, desc }) => {
+const ProductCard = ({ id, img, title, desc, isSaved: initialIsSaved = false, onSaveToggle }) => {
     const { user } = useAuth(); // Get authenticated user
     const userId = user?.$id;
 
-    const [isSaved, setIsSaved] = useState(false);
+    const [isSaved, setIsSaved] = useState(initialIsSaved);
     const [savedRecordId, setSavedRecordId] = useState(null);
-    const [loading, setLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
 
+    // Update local state when prop changes
     useEffect(() => {
-        const fetchSavedStatus = async () => {
-            if (!userId) {
-                setLoading(false);
-                return;
-            }
-
-            try {
-                console.log("Fetching saved products for user:", userId);
-                const savedProducts = await getUserSavedProducts(userId);
-                console.log("Saved products:", savedProducts);
-
-                const savedItem = savedProducts.find(record => record.product?.$id === id);
-
-                if (savedItem) {
-                    console.log("Product is saved:", id);
-                    setIsSaved(true);
-                    setSavedRecordId(savedItem.$id);
-                } else {
-                    console.log("Product is not saved:", id);
-                    setIsSaved(false);
-                    setSavedRecordId(null);
-                }
-            } catch (error) {
-                console.error("Error fetching saved status:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchSavedStatus();
-    }, [id, userId]);
+        setIsSaved(initialIsSaved);
+    }, [initialIsSaved]);
 
     const handleSavePost = async (e) => {
         e.stopPropagation();
@@ -54,22 +26,29 @@ const ProductCard = ({ id, img, title, desc }) => {
             return;
         }
 
+        setIsLoading(true);
         try {
             if (isSaved && savedRecordId) {
                 console.log("Deleting saved post:", savedRecordId);
                 await deleteSavedPost(savedRecordId);
                 setIsSaved(false);
                 setSavedRecordId(null);
+                // Notify parent component
+                onSaveToggle?.(id, false);
             } else {
                 console.log("Saving post:", id);
                 const savedPost = await savePost(id, userId);
                 if (savedPost) {
                     setIsSaved(true);
                     setSavedRecordId(savedPost.$id);
+                    // Notify parent component
+                    onSaveToggle?.(id, true);
                 }
             }
         } catch (error) {
             console.error("Error saving/deleting post:", error);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -79,12 +58,19 @@ const ProductCard = ({ id, img, title, desc }) => {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
             {/* Save button with glassmorphism */}
-            {userId && !loading && (
+            {userId && (
                 <button
-                    className="absolute top-4 right-4 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-800/80 border border-white/50 dark:border-gray-600/50 rounded-full p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-all duration-300 hover:scale-110 shadow-lg"
+                    className="absolute top-4 right-4 z-50 backdrop-blur-md bg-white/80 dark:bg-gray-800/80 border border-white/50 dark:border-gray-600/50 rounded-full p-2 text-gray-600 dark:text-gray-300 hover:text-primary dark:hover:text-primary transition-all duration-300 hover:scale-110 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
                     onClick={handleSavePost}
+                    disabled={isLoading}
                 >
-                    {isSaved ? <BsBookmarkFill className="text-primary" /> : <BsBookmark />}
+                    {isLoading ? (
+                        <div className="w-4 h-4 border-2 border-gray-300 border-t-primary rounded-full animate-spin" />
+                    ) : isSaved ? (
+                        <BsBookmarkFill className="text-primary" />
+                    ) : (
+                        <BsBookmark />
+                    )}
                 </button>
             )}
 

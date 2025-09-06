@@ -31,18 +31,18 @@ const MobileSidebar = ({ setFilter }) => {
         <div className="lg:hidden fixed top-4 left-4 z-50">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-3xl p-2 bg-white/90 backdrop-blur rounded-full shadow-md border border-gray-100"
+                className="text-3xl p-2 bg-white/90 dark:bg-gray-800/90 backdrop-blur rounded-full shadow-md border border-gray-100 dark:border-gray-700 text-gray-900 dark:text-gray-100"
             >
                 {isOpen ? <AiOutlineClose /> : <IoMenuOutline />}
             </button>
 
             <div
-                className={`fixed top-0 left-0 h-screen w-72 bg-white/95 backdrop-blur shadow-xl transform ${isOpen ? "translate-x-0" : "-translate-x-full"
+                className={`fixed top-0 left-0 h-screen w-72 bg-white/95 dark:bg-gray-900/95 backdrop-blur shadow-xl transform ${isOpen ? "translate-x-0" : "-translate-x-full"
                     } transition-transform duration-300 ease-in-out`}
             >
                 <button
                     onClick={() => setIsOpen(false)}
-                    className="absolute top-4 right-4 text-3xl"
+                    className="absolute top-4 right-4 text-3xl text-gray-900 dark:text-gray-100"
                 >
                     <AiOutlineClose />
                 </button>
@@ -57,7 +57,7 @@ const MobileSidebar = ({ setFilter }) => {
                                     setFilter(category);
                                     setIsOpen(false);
                                 }}
-                                className="px-3 py-2 rounded hover:text-primary hover:bg-primary/10 text-left transition"
+                                className="px-3 py-2 rounded text-left transition text-gray-900 dark:text-gray-100 hover:text-primary hover:bg-primary/10 dark:hover:bg-primary/20"
                             >
                                 {category}
                             </button>
@@ -85,9 +85,9 @@ const MobileSidebar = ({ setFilter }) => {
                             ))}
                         </div>
                     )}
-                    <div className="flex flex-col mt-16 gap-4 text-gray-500 cursor-pointer">
-                        <hr />
-                        <Link to="/saved" onClick={handleProtectedRoute} className="flex flex-row gap-2 text-gray-500 hover:text-primary">
+                    <div className="flex flex-col mt-16 gap-4 text-gray-500 dark:text-gray-400 cursor-pointer">
+                        <hr className="border-gray-300 dark:border-gray-600" />
+                        <Link to="/saved" onClick={handleProtectedRoute} className="flex flex-row gap-2 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary">
                             <span className="text-base font-bold">
                                 Saved
                             </span>
@@ -96,12 +96,12 @@ const MobileSidebar = ({ setFilter }) => {
                         {user ? (
                             <Link
                                 to={userCheck ? "/admin" : "/dashboard"}
-                                className="flex items-center gap-2 text-lg font-semibold text-gray-700 hover:text-primary hover:underline"
+                                className="flex items-center gap-2 text-lg font-semibold text-gray-700 dark:text-gray-300 hover:text-primary dark:hover:text-primary hover:underline"
                             >
                                 <span>{user.username}</span>
                             </Link>
                         ) : (
-                            <Link to="/login" className="flex items-center gap-1 text-gray-500 hover:text-primary transition">
+                            <Link to="/login" className="flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition">
                                 <span className="text-base font-bold">
                                     Login
                                 </span>

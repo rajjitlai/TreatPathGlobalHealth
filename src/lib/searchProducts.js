@@ -23,6 +23,18 @@ export const searchProducts = async (term, page = 1, limit = 12) => {
             Query.limit(200) // Get more products to search through
         ]);
 
+        // Ensure documents is an array
+        if (!allProducts || !Array.isArray(allProducts.documents)) {
+            console.error("Invalid response from database:", allProducts);
+            return {
+                documents: [],
+                total: 0,
+                page: page,
+                limit: limit,
+                totalPages: 0
+            };
+        }
+
         const searchTerm = term.toLowerCase().trim();
 
         // Filter products by name, description, and tags

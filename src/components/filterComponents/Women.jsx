@@ -1,40 +1,24 @@
-import { useEffect, useState } from "react";
 import ProductCard from "../ProductCard";
 import Pagination from "../Pagination";
 import { getProdByTags } from "../../lib/getProductByTags";
+import useProductsWithSavedStatus from "../../hooks/useProductsWithSavedStatus";
 
 const Women = () => {
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      setIsLoading(true);
-      setError(null);
-      try {
-        const result = await getProdByTags("women", currentPage, 12);
-        setProducts(result.documents);
-        setTotalPages(result.totalPages);
-        setTotalProducts(result.total);
-      } catch (err) {
-        console.error("Error fetching products", err);
-        setError(err.message);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchProducts();
-  }, [currentPage]);
-
-  const handlePageChange = (page) => {
-    setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const {
+    products,
+    isLoading,
+    error,
+    currentPage,
+    totalPages,
+    totalProducts,
+    savedProducts,
+    handlePageChange,
+    handleSaveToggle
+  } = useProductsWithSavedStatus(
+    getProdByTags,
+    ["women", 12], // Only pass tag and limit
+    [] // No dependencies needed since currentPage is handled internally
+  );
 
   // ✅ Function to truncate long descriptions
   const truncateDescription = (desc, length = 80) => {
@@ -81,8 +65,8 @@ const Women = () => {
                   img={product.item_image}
                   title={product.item_name}
                   desc={truncateDescription(product.item_description)}
-                  price={product.item_price}
-                  tags={product.tags}
+                  isSaved={savedProducts.has(product.$id)}
+                  onSaveToggle={handleSaveToggle}
                 />
               ))
             ) : (

@@ -4,6 +4,7 @@ import searchProducts from "../lib/searchProducts";
 import ProductCard from "../components/ProductCard";
 import Layout from "../Layout";
 import { BsSearch } from "react-icons/bs";
+import useSEO from "../hooks/useSEO";
 
 const useDebouncedValue = (value, delay) => {
     const [debounced, setDebounced] = useState(value);
@@ -23,6 +24,15 @@ const Search = () => {
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
 
+    // Dynamic SEO based on search query
+    useSEO({
+        title: q ? `Search Results for "${q}" - Treat Path Global` : "Search Products - Treat Path Global",
+        description: q
+            ? `Find products related to "${q}" at Treat Path Global. Discover quality health and pet care products that match your search.`
+            : "Search for quality health and pet care products at Treat Path Global. Find exactly what you're looking for with our advanced search functionality.",
+        type: 'website'
+    });
+
     useEffect(() => {
         setParams((prev) => {
             const p = new URLSearchParams(prev);
@@ -35,8 +45,8 @@ const Search = () => {
         const run = async () => {
             if (!debouncedQ) { setResults([]); return; }
             setLoading(true);
-            const items = await searchProducts(debouncedQ);
-            setResults(items);
+            const response = await searchProducts(debouncedQ);
+            setResults(response.documents || []);
             setLoading(false);
         };
         run();

@@ -1,6 +1,14 @@
 import Layout from "../Layout";
+import useSEO from "../hooks/useSEO";
 
 const About = () => {
+    // SEO for about page
+    useSEO({
+        title: "About Us - Treat Path Global",
+        description: "Learn about Treat Path Global's mission to provide quality health and pet care products. Discover our commitment to helping you find effective treatments and wellness solutions.",
+        type: 'website'
+    });
+
     return (
         <Layout>
             <div className="section">
