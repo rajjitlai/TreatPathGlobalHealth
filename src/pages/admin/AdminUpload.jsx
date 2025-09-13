@@ -4,6 +4,7 @@ import { addProduct } from "../../lib/uploadProducts";
 import { uploadImage } from "../../lib/uploadImage";
 import { useNavigate } from "react-router-dom";
 import EditProd from "./EditProd";
+import ImageCropperUpload from "../../components/ImageCropperUpload";
 
 const AdminUpload = () => {
     const navigate = useNavigate();
@@ -18,8 +19,6 @@ const AdminUpload = () => {
         tags: [],
     });
 
-    const [imageFile, setImageFile] = useState(null);
-    const [uploading, setUploading] = useState(false);
     const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
     const handleChange = (e) => {
@@ -34,34 +33,6 @@ const AdminUpload = () => {
         });
     };
 
-    const handleImageChange = (e) => {
-        setImageFile(e.target.files[0]);
-    };
-
-    const handleImageUpload = async () => {
-        if (!imageFile) {
-            alert("Please select an image first.");
-            return;
-        }
-
-        setUploading(true);
-        try {
-            const imageUrl = await uploadImage(imageFile);
-            if (imageUrl) {
-                setUploadedImageUrl(imageUrl);
-                setFormData((prev) => ({ ...prev, item_image: imageUrl }));
-            }
-        } catch (error) {
-            alert("Image upload failed.");
-        }
-        setUploading(false);
-    };
-
-    const copyToClipboard = () => {
-        navigator.clipboard.writeText(uploadedImageUrl).then(() => {
-            alert("Image URL copied!");
-        });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -76,7 +47,6 @@ const AdminUpload = () => {
                 item_link: "",
                 tags: [],
             });
-            setImageFile(null);
             setUploadedImageUrl("");
         } catch (error) {
             alert("Error adding product.");
@@ -113,44 +83,15 @@ const AdminUpload = () => {
                 // Upload Product Section
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Left: Image Upload Section */}
-                    <div className="bg-gray-100 p-4 rounded-lg dark:bg-gray-800">
-                        <h3 className="text-lg font-semibold mb-3">Upload Image</h3>
-                        <input
-                            type="file"
-                            accept="image/*"
-                            onChange={handleImageChange}
-                            className="w-full p-2 border rounded-md"
-                        />
-                        <button
-                            type="button"
-                            onClick={handleImageUpload}
-                            disabled={uploading}
-                            className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mt-2 w-full transition"
-                        >
-                            {uploading ? "Uploading..." : "Upload Image"}
-                        </button>
-
-                        {/* Show uploaded image preview & copy URL button */}
-                        {uploadedImageUrl && (
-                            <div className="mt-4">
-                                <img src={uploadedImageUrl} alt="Uploaded Preview" className="w-full h-40 object-cover rounded-md border border-gray-200 dark:border-gray-700" />
-                                <div className="flex items-center mt-2">
-                                    <input
-                                        type="text"
-                                        value={uploadedImageUrl}
-                                        readOnly
-                                        className="w-full p-2 border rounded-md outline-none dark:bg-gray-900 dark:border-gray-700"
-                                    />
-                                    <button
-                                        onClick={copyToClipboard}
-                                        className="bg-primary hover:bg-secondary text-white font-bold py-2 px-4 ml-2 rounded transition"
-                                    >
-                                        Copy
-                                    </button>
-                                </div>
-                            </div>
-                        )}
-                    </div>
+                    <ImageCropperUpload 
+                        onImageUploaded={(url) => {
+                            setUploadedImageUrl(url);
+                            setFormData(prev => ({ ...prev, item_image: url }));
+                        }}
+                        onImageUrlChange={(url) => {
+                            setFormData(prev => ({ ...prev, item_image: url }));
+                        }}
+                    />
 
                     {/* Right: Product Form */}
                     <form onSubmit={handleSubmit} className="flex flex-col gap-4 bg-gray-100 p-4 rounded-lg dark:bg-gray-800">
