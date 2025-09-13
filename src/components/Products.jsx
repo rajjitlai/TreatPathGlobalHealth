@@ -28,20 +28,18 @@ const Products = ({ filter }) => {
         [filter] // Remove currentPage from dependencies since it's handled internally
     );
 
-    // Only render products when filter is "All"
-    if (filter !== "All") {
-        return null;
-    }
-
     const truncateDescription = (desc, length = 100) => {
         return desc.length > length ? `${desc.substring(0, length)}...` : desc;
     };
 
+    // Render specific filter components
     if (filter === "Hot") return <Hot />;
     if (filter === "Health") return <Health />;
     if (filter === "Pets") return <Pets />;
     if (filter === "Men") return <Men />;
     if (filter === "Women") return <Women />;
+
+    // Only render the "All" products section if filter is "All"
 
     return (
         <div className="container px-8 lg:px-16 pt-16 mx-auto" id="products">
