@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import { useEffect as useReactEffect } from "react";
 import useSEO from "../../hooks/useSEO";
 import { getProductDataForAutomation, createAPIResponse } from "../../lib/productAPI";
+import ShareButton from "../ShareButton";
 
 const SingleProduct = () => {
     const { id } = useParams();
@@ -238,6 +239,12 @@ const SingleProduct = () => {
                                     >
                                         Know More
                                     </button>
+                                    <ShareButton
+                                        title={product.item_name}
+                                        text={`Check out this product: ${product.item_name} - ${product.item_description?.substring(0, 100)}${product.item_description?.length > 100 ? '...' : ''}`}
+                                        size="lg"
+                                        className="flex-shrink-0"
+                                    />
                                     <button
                                         onClick={() => navigate(-1)}
                                         className="px-8 py-4 rounded-xl text-lg font-semibold border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-all duration-300"
