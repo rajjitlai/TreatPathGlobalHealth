@@ -4,8 +4,8 @@ import { getProdById } from "../../lib/getProdById";
 import { getProdByTags } from "../../lib/getProductByTags";
 import RelatedProducts from "./RelatedProducts";
 import { BsArrowLeft } from "react-icons/bs";
-import { useAuth } from "../../context/AuthContext";
-import toast from "react-hot-toast";
+
+
 import { useEffect as useReactEffect } from "react";
 import useSEO from "../../hooks/useSEO";
 import { getProductDataForAutomation, createAPIResponse } from "../../lib/productAPI";
@@ -18,7 +18,7 @@ const SingleProduct = () => {
     const [relatedProd, setRelatedProd] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    const { user } = useAuth()
+    
 
     useEffect(() => {
         const fetchProdData = async () => {
@@ -176,12 +176,7 @@ const SingleProduct = () => {
     );
 
     const handleBuyNow = () => {
-        if (!user) {
-            toast.error("Please login first");
-            navigate('/login');
-        } else {
-            window.location.href = product.item_link;
-        }
+        window.location.href = product.item_link;
     };
 
     return (
