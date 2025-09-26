@@ -36,7 +36,7 @@ const Hero = () => {
                         img={item.img}
                         title={item.title}
                         mainTitle={item.mainTitle}
-                        price={item.price}
+                        // price={item.price}
                     />
                 ))}
             </Slider>
