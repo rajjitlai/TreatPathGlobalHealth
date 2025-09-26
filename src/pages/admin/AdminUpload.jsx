@@ -1,7 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from "react";
 import { addProduct } from "../../lib/uploadProducts";
-import { uploadImage } from "../../lib/uploadImage";
 import { useNavigate } from "react-router-dom";
 import EditProd from "./EditProd";
 import ImageCropperUpload from "../../components/ImageCropperUpload";
@@ -47,7 +46,6 @@ const AdminUpload = () => {
                 item_link: "",
                 tags: [],
             });
-            setUploadedImageUrl("");
         } catch (error) {
             alert("Error adding product.");
         }
@@ -83,7 +81,7 @@ const AdminUpload = () => {
                 // Upload Product Section
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {/* Left: Image Upload Section */}
-                    <ImageCropperUpload 
+                    <ImageCropperUpload
                         onImageUploaded={(url) => {
                             setUploadedImageUrl(url);
                             setFormData(prev => ({ ...prev, item_image: url }));

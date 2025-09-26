@@ -15,7 +15,8 @@ const EditProd = () => {
         setLoading(true);
         try {
             const prodList = await getProd();
-            setProducts(prodList);
+            const docs = Array.isArray(prodList?.documents) ? prodList.documents : [];
+            setProducts(docs);
         } catch (error) {
             toast.error("Error fetching products");
             console.error(error);
